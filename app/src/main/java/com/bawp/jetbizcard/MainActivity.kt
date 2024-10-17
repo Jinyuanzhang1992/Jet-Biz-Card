@@ -37,7 +37,6 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                     CreateBizCard()
-                    //Hello world
                 }
             }
         }
@@ -49,147 +48,156 @@ fun CreateBizCard() {
     val buttonClickedState = remember {
         mutableStateOf(false)
     }
-    Surface( modifier = Modifier
-        .fillMaxWidth()
-        .fillMaxHeight()) {
-        Card(modifier = Modifier
-            .width(200.dp)
-            .height(390.dp)
-            .padding(12.dp),
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+    ) {
+        Card(
+            modifier = Modifier
+                .width(200.dp)
+                .height(390.dp)
+                .padding(12.dp),
+            elevation = 4.dp,
             shape = RoundedCornerShape(corner = CornerSize(15.dp)),
-            elevation = 4.dp) {
-            Column(modifier = Modifier.height(300.dp),
-                  verticalArrangement = Arrangement.Top,
-                  horizontalAlignment = Alignment.CenterHorizontally) {
+        ) {
+            Column(
+                modifier = Modifier.height(300.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 CreateImageProfile()
                 Divider()
                 CreateInfo()
                 Button(
-                    onClick = { 
+                    onClick = {
+                        Log.d("Button", "Button clicked before state: ${buttonClickedState.value}")
                         buttonClickedState.value = !buttonClickedState.value
-
+                        Log.d("Button", "Button clicked")
                     }
-                      ) {
-                    Text("Portfolio",
-                        style = MaterialTheme.typography.button)
-
+                ) {
+                    Text(
+                        text = "Portfolio",
+                        style = MaterialTheme.typography.button,
+                    )
                 }
                 if (buttonClickedState.value) {
                     Content()
-                }else {
+                } else {
                     Box {}
                 }
 
             }
-            
         }
-
     }
-
 }
 
+
+//@Preview(showBackground = true)
 @Composable
 fun Content() {
-    Box(modifier = Modifier
-        .fillMaxHeight()
-        .fillMaxWidth()
-        .padding(5.dp)){
-        Surface(modifier = Modifier
-            .padding(3.dp)
+    Box(
+        modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(),
-               shape = RoundedCornerShape(corner = CornerSize(6.dp)),
-               border = BorderStroke(width = 2.dp,
-                   color = Color.LightGray)) {
-
-                  Portfolio(data = listOf("Project 1",
-                      "Project 2",
-                      "Project 3",
-                      "Project 3",
-                      "Project 3"))
-
+            .fillMaxHeight()
+            .padding(5.dp)
+    ) {
+        Surface(
+            modifier = Modifier
+                .padding(3.dp)
+                .fillMaxHeight()
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(corner = CornerSize(6.dp)),
+            border = BorderStroke(2.dp, Color.LightGray),
+        ) {
+            Portfolio(
+                data = listOf(
+                    "Project 1",
+                    "Project 2",
+                    "Project 3",
+                    "Project 4",
+                    "Project 5"
+                )
+            )
         }
-
     }
 
 }
 
 @Composable
 fun Portfolio(data: List<String>) {
-    LazyColumn{
+    LazyColumn {
         items(data) { item ->
-            Card(modifier = Modifier
-                .padding(13.dp)
-                .fillMaxWidth(),
+            Card(
+                modifier = Modifier
+                    .padding(13.dp)
+                    .fillMaxWidth(),
                 shape = RectangleShape,
-                elevation = 4.dp) {
-                Row(modifier = Modifier
-                    .padding(8.dp)
-                    .background(MaterialTheme.colors.surface)
-                    .padding(7.dp)) {
-                    CreateImageProfile(modifier = Modifier.size(100.dp))
-                    Column( modifier = Modifier
+                elevation = 4.dp
+            ) {
+                Row(
+                    modifier = Modifier
+                        .background(MaterialTheme.colors.surface)
                         .padding(7.dp)
-                        .align(alignment = Alignment.CenterVertically)) {
-
+                ) {
+                    CreateImageProfile(modifier = Modifier.size(100.dp))
+                    Column(
+                        modifier = Modifier
+                            .padding(7.dp)
+                            .align(Alignment.CenterVertically)
+                    ) {
                         Text(text = item, fontWeight = FontWeight.Bold)
-                        Text(text = "A great Project",
-                            style = MaterialTheme.typography.body2)
+                        Text(text = "A Great Project", style= MaterialTheme.typography.body2)
                     }
 
                 }
-
             }
-
         }
     }
-
-
-
-
 }
-
-
-
-
-
 
 
 @Composable
 private fun CreateInfo() {
     Column(modifier = Modifier.padding(5.dp)) {
-        Text(text = "Miles P.", style = MaterialTheme.typography.h4, color = MaterialTheme.colors.primaryVariant)
+        Text(
+            text = "Miles P.",
+            style = MaterialTheme.typography.h4,
+            color = MaterialTheme.colors.primaryVariant,
+        )
         Text(text = "Android Compose Programmer", modifier = Modifier.padding(3.dp))
-
-        Text(text = "@themilesCompose", modifier = Modifier.padding(3.dp), style = MaterialTheme.typography.subtitle1)
-
-
+        Text(
+            text = "@themilesCompose",
+            modifier = Modifier.padding(3.dp),
+            style = MaterialTheme.typography.subtitle1
+        )
     }
 }
 
 @Composable
 private fun CreateImageProfile(modifier: Modifier = Modifier) {
-    Surface(modifier = modifier
-        .size(150.dp)
-        .padding(5.dp),
+    Surface(
+        modifier = modifier
+            .size(150.dp)
+            .padding(5.dp),
         shape = CircleShape,
         border = BorderStroke(0.5.dp, Color.LightGray),
         elevation = 4.dp,
-        color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)) {
-
-        Image(painter = painterResource(id = R.drawable.profile_image),
-            contentDescription = "profile image",
+        color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.profile_image),
+            contentDescription = "Profile image",
+            contentScale = ContentScale.Crop,
             modifier = modifier.size(135.dp),
-            contentScale = ContentScale.Crop)
-
+        )
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     JetBizCardTheme {
-       CreateBizCard()
+        CreateBizCard()
     }
 }

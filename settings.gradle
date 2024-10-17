@@ -8,3 +8,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "JetBizCard"
 include ':app'
+include ':app'
+include ':app'
+include ':Test'
